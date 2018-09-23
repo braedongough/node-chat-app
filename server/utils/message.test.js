@@ -23,7 +23,7 @@ describe('generateLocationMessage', () => {
         const lat = 1
         const long = 4
         const url = 'https://www.google.com/maps/search/1,4'
-        const locationMessage = (from, lat, long)
+        const locationMessage = generateLocationMessage(from, lat, long)
 
         expect(locationMessage).toMatchObject({
             from,
