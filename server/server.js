@@ -4,7 +4,7 @@ const express = require('express')
 const socketIO = require('socket.io')
 
 const {generateMessage, generateLocationMessage} = require('./utils/message')
-const {isRealString} = require('./utils/validation')
+const {isRealString, isUniqueUsername} = require('./utils/validation')
 const {Users} = require('./utils/users')
 const publicPath = path.join(__dirname, '../public')
 const port = process.env.PORT || 3000
@@ -15,17 +15,16 @@ const users = new Users()
 
 app.use(express.static(publicPath))
 
-//Unique usernames
 //dropdown list of all current rooms
 
 io.on('connection', (socket) => {
-    console.log('New user connected')
+    io.emit('updateRoomList', users.getRoomList())
 
     socket.on('join', (params, callback) => {
         
         if (!isRealString(params.name) || !isRealString(params.room)){
             return callback('Name and room name are required.')
-        } else if (users.getUserList(params.room).includes(params.name)) {
+        } else if (isUniqueUsername(users, params.room, params.name)) {
             return callback('A user already exists with this name. Please choose another.')
         }
 
