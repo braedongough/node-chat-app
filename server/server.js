@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
     io.emit('updateRoomList', users.getRoomList())
 
     socket.on('join', (params, callback) => {
-        
+
         if (!isRealString(params.name) || !isRealString(params.room)){
             return callback('Name and room name are required.')
         } else if (isUniqueUsername(users, params.room, params.name)) {

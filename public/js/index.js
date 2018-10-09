@@ -1,16 +1,18 @@
 const socket = io()
 
+const select = jQuery('#rooms')
+
 socket.on('updateRoomList', function (rooms)  {
-    const select = jQuery('#rooms')
 
     rooms.forEach(function (room) {
         select.append(new Option(room))
     })
     
 })
+const roomNameInput = jQuery('#room-name')
+select.on('change', (e) => {
+    const optionSelected = select.find('option:selected').text();
+    const roomNameInput = jQuery('#room-name')
 
-//What needs to be done next? 
-
-/* currently, a list of options can be generated of the rooms. I'm not sure what happens when someone
-creats a new room, or when someone leaves a room. Something must be done then possibly. Also, how 
-does a user select and enter a room from the options list.  */
+    roomNameInput[0].value = optionSelected
+})
